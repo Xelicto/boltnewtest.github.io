@@ -1,37 +1,24 @@
 import { Menu, X } from 'lucide-react';
 import { useState } from 'react';
 
-type Page = 'home' | 'services' | 'about' | 'contact';
-
 interface NavigationProps {
-  currentPage: Page;
-  onNavigate: (page: Page) => void;
+  onServicesClick: () => void;
+  onAboutClick: () => void;
+  onContactClick: () => void;
 }
 
-export default function Navigation({ currentPage, onNavigate }: NavigationProps) {
+export default function Navigation({ onServicesClick, onAboutClick, onContactClick }: NavigationProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const navItems: { id: Page; label: string }[] = [
-    { id: 'home', label: 'Home' },
-    { id: 'services', label: 'Services' },
-    { id: 'about', label: 'About Us' },
-    { id: 'contact', label: 'Contact' },
-  ];
-
-  const handleNavigate = (page: Page) => {
-    onNavigate(page);
+  const handleMenuClose = () => {
     setIsMenuOpen(false);
-    window.scrollTo(0, 0);
   };
 
   return (
     <nav className="bg-white shadow-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-          <button
-            onClick={() => handleNavigate('home')}
-            className="flex items-center space-x-2 group"
-          >
+          <a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="flex items-center space-x-2 group">
             <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center">
               <span className="text-white font-bold text-xl">F</span>
             </div>
@@ -41,22 +28,27 @@ export default function Navigation({ currentPage, onNavigate }: NavigationProps)
               </h1>
               <p className="text-xs text-gray-600">Cleveland's Trusted Experts</p>
             </div>
-          </button>
+          </a>
 
           <div className="hidden md:flex space-x-8">
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => handleNavigate(item.id)}
-                className={`font-medium transition-colors ${
-                  currentPage === item.id
-                    ? 'text-green-600 border-b-2 border-green-600'
-                    : 'text-gray-700 hover:text-green-600'
-                } pb-1`}
-              >
-                {item.label}
-              </button>
-            ))}
+            <button
+              onClick={onServicesClick}
+              className="font-medium text-gray-700 hover:text-green-600 transition-colors pb-1"
+            >
+              Services
+            </button>
+            <button
+              onClick={onAboutClick}
+              className="font-medium text-gray-700 hover:text-green-600 transition-colors pb-1"
+            >
+              About Us
+            </button>
+            <button
+              onClick={onContactClick}
+              className="font-medium text-gray-700 hover:text-green-600 transition-colors pb-1"
+            >
+              Contact
+            </button>
           </div>
 
           <a
@@ -78,19 +70,24 @@ export default function Navigation({ currentPage, onNavigate }: NavigationProps)
       {isMenuOpen && (
         <div className="md:hidden bg-white border-t">
           <div className="px-4 py-4 space-y-3">
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => handleNavigate(item.id)}
-                className={`block w-full text-left px-4 py-3 rounded-lg font-medium transition-colors ${
-                  currentPage === item.id
-                    ? 'bg-green-600 text-white'
-                    : 'text-gray-700 hover:bg-gray-100'
-                }`}
-              >
-                {item.label}
-              </button>
-            ))}
+            <button
+              onClick={() => { onServicesClick(); handleMenuClose(); }}
+              className="block w-full text-left px-4 py-3 rounded-lg font-medium text-gray-700 hover:bg-gray-100 transition-colors"
+            >
+              Services
+            </button>
+            <button
+              onClick={() => { onAboutClick(); handleMenuClose(); }}
+              className="block w-full text-left px-4 py-3 rounded-lg font-medium text-gray-700 hover:bg-gray-100 transition-colors"
+            >
+              About Us
+            </button>
+            <button
+              onClick={() => { onContactClick(); handleMenuClose(); }}
+              className="block w-full text-left px-4 py-3 rounded-lg font-medium text-gray-700 hover:bg-gray-100 transition-colors"
+            >
+              Contact
+            </button>
             <a
               href="tel:+12165551234"
               className="block w-full text-center bg-green-600 text-white px-4 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors"

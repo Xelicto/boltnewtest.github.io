@@ -1,38 +1,44 @@
-import { useState } from 'react';
-import HomePage from './pages/HomePage';
-import ServicesPage from './pages/ServicesPage';
-import AboutPage from './pages/AboutPage';
-import ContactPage from './pages/ContactPage';
+import { useRef } from 'react';
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
-
-type Page = 'home' | 'services' | 'about' | 'contact';
+import Hero from './sections/Hero';
+import Services from './sections/Services';
+import About from './sections/About';
+import Contact from './sections/Contact';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<Page>('home');
+  const servicesRef = useRef<HTMLDivElement>(null);
+  const aboutRef = useRef<HTMLDivElement>(null);
+  const contactRef = useRef<HTMLDivElement>(null);
 
-  const renderPage = () => {
-    switch (currentPage) {
-      case 'home':
-        return <HomePage />;
-      case 'services':
-        return <ServicesPage />;
-      case 'about':
-        return <AboutPage />;
-      case 'contact':
-        return <ContactPage />;
-      default:
-        return <HomePage />;
-    }
+  const scrollToSection = (ref: React.RefObject<HTMLDivElement>) => {
+    ref.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
-      <Navigation currentPage={currentPage} onNavigate={setCurrentPage} />
+      <Navigation
+        onServicesClick={() => scrollToSection(servicesRef)}
+        onAboutClick={() => scrollToSection(aboutRef)}
+        onContactClick={() => scrollToSection(contactRef)}
+      />
       <main className="flex-grow">
-        {renderPage()}
+        <Hero onServicesClick={() => scrollToSection(servicesRef)} />
+        <div ref={servicesRef}>
+          <Services />
+        </div>
+        <div ref={aboutRef}>
+          <About />
+        </div>
+        <div ref={contactRef}>
+          <Contact />
+        </div>
       </main>
-      <Footer onNavigate={setCurrentPage} />
+      <Footer
+        onServicesClick={() => scrollToSection(servicesRef)}
+        onAboutClick={() => scrollToSection(aboutRef)}
+        onContactClick={() => scrollToSection(contactRef)}
+      />
     </div>
   );
 }

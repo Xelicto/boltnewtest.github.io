@@ -1,12 +1,12 @@
 import { MapPin, Phone, Mail } from 'lucide-react';
 
-type Page = 'home' | 'services' | 'about' | 'contact';
-
 interface FooterProps {
-  onNavigate: (page: Page) => void;
+  onServicesClick: () => void;
+  onAboutClick: () => void;
+  onContactClick: () => void;
 }
 
-export default function Footer({ onNavigate }: FooterProps) {
+export default function Footer({ onServicesClick, onAboutClick, onContactClick }: FooterProps) {
   return (
     <footer className="bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -27,7 +27,7 @@ export default function Footer({ onNavigate }: FooterProps) {
             <ul className="space-y-2">
               <li>
                 <button
-                  onClick={() => { onNavigate('home'); window.scrollTo(0, 0); }}
+                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                   className="text-gray-400 hover:text-green-500 transition-colors"
                 >
                   Home
@@ -35,7 +35,7 @@ export default function Footer({ onNavigate }: FooterProps) {
               </li>
               <li>
                 <button
-                  onClick={() => { onNavigate('services'); window.scrollTo(0, 0); }}
+                  onClick={onServicesClick}
                   className="text-gray-400 hover:text-green-500 transition-colors"
                 >
                   Services
@@ -43,7 +43,7 @@ export default function Footer({ onNavigate }: FooterProps) {
               </li>
               <li>
                 <button
-                  onClick={() => { onNavigate('about'); window.scrollTo(0, 0); }}
+                  onClick={onAboutClick}
                   className="text-gray-400 hover:text-green-500 transition-colors"
                 >
                   About Us
@@ -51,7 +51,7 @@ export default function Footer({ onNavigate }: FooterProps) {
               </li>
               <li>
                 <button
-                  onClick={() => { onNavigate('contact'); window.scrollTo(0, 0); }}
+                  onClick={onContactClick}
                   className="text-gray-400 hover:text-green-500 transition-colors"
                 >
                   Contact
